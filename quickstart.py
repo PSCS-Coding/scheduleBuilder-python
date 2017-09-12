@@ -20,6 +20,12 @@ SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Sheets API Python Quickstart'
 
+classDays = 4
+blocks = []
+tueSlots = []
+wedSlots = []
+thuSlots = []
+friSlots = []
 
 def get_credentials():
     """Gets valid user credentials from storage.
@@ -64,19 +70,20 @@ def main():
                               discoveryServiceUrl=discoveryUrl)
 
     spreadsheetId = '1ajZYz-mN8k36k8BX0n-BN559cRLTpJY-BZmyL8xl9lo'
-    rangeName = 'Sheet1!B3:J'
-    result = service.spreadsheets().values().get(
-        spreadsheetId=spreadsheetId, range=rangeName).execute()
+
+    #blocks
+    rangeName = 'Sheet1!B3:B9'
+    result = service.spreadsheets().values().get(spreadsheetId=spreadsheetId, range=rangeName).execute()
     values = result.get('values', [])
 
     if not values:
         print('No data found.')
     else:
-        for row in values:
-            for i in range(0,len(row)):
-                print(row[i])
-            print("\n")
-
+        print(values)
+        for i in range(0,len(values),1):
+            if(values[i] != []):
+                blocks.append(values[i][0].encode('ascii', 'ignore'))
+        print(blocks)
 
 if __name__ == '__main__':
     main()
